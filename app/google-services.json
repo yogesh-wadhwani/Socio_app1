@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "171073939324",
+    "project_id": "apna-insta-aebad",
+    "storage_bucket": "apna-insta-aebad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171073939324:android:04713746bde55da71866f9",
+        "android_client_info": {
+          "package_name": "com.example.apnainsta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "171073939324-9gr1okt23r425k4qbjrat4e6t8je5m6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAicWB-HVvTW8Lw6m7LACeqivxaJn4p0-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171073939324-9gr1okt23r425k4qbjrat4e6t8je5m6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
