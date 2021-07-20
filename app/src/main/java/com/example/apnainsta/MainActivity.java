@@ -3,6 +3,7 @@ package com.example.apnainsta;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +33,7 @@ RecyclerView recyclerView;
 private PostDao postDao;
 private TextView logout;
 private ImageView moreButton;
+final String CHANNEL_ID= "my";
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,17 @@ fab = findViewById(R.id.fab);
         setSupportActionBar(myToolbar);
 moreButton = findViewById(R.id.more);
 logout = findViewById(R.id.Logout);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("")
+                .setContentText("")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+
+
+
+
+
 moreButton.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {

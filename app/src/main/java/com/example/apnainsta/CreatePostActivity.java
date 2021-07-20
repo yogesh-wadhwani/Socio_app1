@@ -40,6 +40,7 @@ ImageView postImagePicker;
     PostDao postDao;
     Bitmap bitmap;
     String imageURL;
+    boolean hasVideo = true;
     private  String input;
     private Uri imageUri;
     @Override
@@ -55,7 +56,7 @@ ImageView postImagePicker;
         @Override
         public void onClick(View v) {
             Intent intent = new Intent();
-            intent.setType("image/*");
+            intent.setType("*/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
@@ -67,13 +68,22 @@ ImageView postImagePicker;
     postButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if(postInput.getText() != null)
+                input = postInput.getText().toString().trim();
 
-if(postInput.getText() != null)
- input = postInput.getText().toString().trim();
-        if(!input.isEmpty() || bitmap!=null  ){
+            if(input.isEmpty() && bitmap!=null  ) {
+                Toast.makeText(getApplicationContext(),"Please add caption!",Toast.LENGTH_SHORT).show();
+            }else if(!input.isEmpty() && bitmap==null ){
+                Toast.makeText(getApplicationContext(),"Please add Image to post!",Toast.LENGTH_SHORT).show();
+            }else if(input.isEmpty() && bitmap==null ) {
+                Toast.makeText(getApplicationContext(),"Post cannot be empty!",Toast.LENGTH_SHORT).show();
+            }
+
+
+        if(!input.isEmpty() && bitmap!=null  ){
             // uploadImage();
             PostDao postDao = new PostDao();
-            postDao.addPost(input,imageURL);
+            postDao.addPost(input,imageURL,hasVideo);
             Toast.makeText(getApplicationContext(),"Post Added",Toast.LENGTH_SHORT).show();
             finish();
 
@@ -103,6 +113,7 @@ if(postInput.getText() != null)
 
             imageUri =data.getData();
 
+
             try {
                 InputStream inputStream = this.getContentResolver().openInputStream(data.getData());
               bitmap = BitmapFactory.decodeStream(inputStream);
@@ -119,10 +130,10 @@ if(postInput.getText() != null)
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if(bitmap != null) {
-            Glide.with(postImagePicker.getContext()).asBitmap().load(bitmap).into(postImagePicker);
+        if(imageUri != null) {
+          Glide.with(postImagePicker.getContext()).asBitmap().load(bitmap).into(postImagePicker);
             ProgressDialog pd = new ProgressDialog(this);
-            pd.setMessage("Uploading Image...");
+            pd.setMessage("Uploading ....");
             pd.show();
 
             StorageReference imageRef = FirebaseStorage.getInstance().getReference().child("Post Images").child(System.currentTimeMillis() +"."+ getImageExtention(imageUri));
@@ -133,14 +144,17 @@ if(postInput.getText() != null)
                         @Override
                         public void onSuccess(Uri uri) {
                             imageURL = uri.toString();
-                            Log.d( "Apna", imageURL);
+                            if(imageURL.contains(".jpg") || imageURL.contains(".png")){
+                                hasVideo = false;
+                            }
+                            Log.d( "Apna", imageURL + hasVideo);
                             pd.dismiss();
                         }
                     });
                 }
 
             });
-        }
+     }
 
     }
 }

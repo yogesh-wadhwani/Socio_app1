@@ -36,7 +36,7 @@ public static CollectionReference postCollections = db.collection("posts");
     private static final FirebaseAuth mAuth =FirebaseAuth.getInstance();
 
 
-public  void addPost(String text , String imageURL){
+public  void addPost(String text , String imageURL ,boolean hasVideo){
 
    String currentUserId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 UserDao userDao = new UserDao();
@@ -46,7 +46,7 @@ UserDao userDao = new UserDao();
                         Long currentTime = System.currentTimeMillis();
             ArrayList<String> a = new ArrayList<>();
 
-            Post post = new Post(text,user,currentTime,a,imageURL);
+            Post post = new Post(text,user,currentTime,a,imageURL,hasVideo);
             postCollections.document().set(post);
 
 

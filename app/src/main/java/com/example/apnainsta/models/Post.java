@@ -13,6 +13,7 @@ public class Post {
     public Long createdAt;
     public  ArrayList<String> LikedBy = new ArrayList<>();
     public String  postImage ;
+    public boolean hasVideo ;
 
     public void like(String id){
         LikedBy.add(id);
@@ -28,12 +29,15 @@ public class Post {
                       User createdBy,
                       Long createdAt,
                       ArrayList<String> likedBy,
-                     String postImage){
+                     String postImage,
+                   boolean hasVideo
+                   ){
         this.createdBy=createdBy;
         this.createdAt = createdAt;
         this.text=text;
       this.LikedBy = likedBy;
       this.postImage=postImage;
+      this.hasVideo = hasVideo;
 
     }
     public  Post(){}
