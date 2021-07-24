@@ -14,7 +14,7 @@ public class Post {
     public  ArrayList<String> LikedBy = new ArrayList<>();
     public String  postImage ;
     public boolean hasVideo ;
-
+  public ArrayList<Comment> comments = new ArrayList<>();
     public void like(String id){
         LikedBy.add(id);
     }
@@ -30,7 +30,8 @@ public class Post {
                       Long createdAt,
                       ArrayList<String> likedBy,
                      String postImage,
-                   boolean hasVideo
+                   boolean hasVideo,
+                   ArrayList<Comment> comments
                    ){
         this.createdBy=createdBy;
         this.createdAt = createdAt;
@@ -38,7 +39,7 @@ public class Post {
       this.LikedBy = likedBy;
       this.postImage=postImage;
       this.hasVideo = hasVideo;
-
+        this.comments  = comments;
     }
     public  Post(){}
 

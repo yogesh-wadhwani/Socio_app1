@@ -4,11 +4,15 @@ package com.example.apnainsta.daos;
 
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.apnainsta.CommentsActivity;
+import com.example.apnainsta.models.Comment;
 import com.example.apnainsta.models.Post;
 import com.example.apnainsta.models.User;
 
@@ -44,9 +48,12 @@ UserDao userDao = new UserDao();
         try {
             User user = Tasks.await(userDao.getUserData(currentUserId)).toObject(User.class);
                         Long currentTime = System.currentTimeMillis();
-            ArrayList<String> a = new ArrayList<>();
+            ArrayList<String> likes = new ArrayList<>();
+            ArrayList<Comment> comments = new ArrayList<>();
 
-            Post post = new Post(text,user,currentTime,a,imageURL,hasVideo);
+            Post post = new Post(text,user,currentTime,likes,imageURL,hasVideo,comments);
+
+
             postCollections.document().set(post);
 
 
@@ -58,7 +65,7 @@ UserDao userDao = new UserDao();
 
 }
 
-private static Task<DocumentSnapshot> getPostById( String posId){
+public static Task<DocumentSnapshot> getPostById( String posId){
 return  postCollections.document(posId).get();
 
 }
@@ -87,6 +94,12 @@ if(p.LikedBy != null) {
      } } ).start();
 
 }
+
+
+
+
+
+
 
 
 

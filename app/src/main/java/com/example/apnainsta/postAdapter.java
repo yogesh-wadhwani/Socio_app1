@@ -3,7 +3,6 @@ package com.example.apnainsta;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.apnainsta.models.Post;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -42,7 +39,6 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
      */
 
     private  postlike listner;
-    private  MediaPlayer player;
     public postAdapter(@NonNull FirestoreRecyclerOptions<Post> options,postlike listner) {
         super(options);
         this.listner = listner;
@@ -92,10 +88,7 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
              startActivity(holder.postImage.getContext(),intent,null);
             }
         });
-
-
-
-    }
+}
 
       holder.likeCount.setText(String.valueOf(model.LikedBy.size()));
         holder.createdAt.setText(Utils.toDuration(System.currentTimeMillis() - model.createdAt));
@@ -108,12 +101,28 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
             holder.likeButton.setImageDrawable(ContextCompat.getDrawable(holder.likeButton.getContext(),R.drawable.ic_baseline_favorite_unlike));
         }
 
+
+
     }
+
 
     @NonNull
     @Override
     public postViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
        postViewHolder viewHolder = new postViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_layout, parent, false));
+
+
+       viewHolder.commmentButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(viewHolder.commmentButton.getContext(), CommentsActivity.class);
+               DocumentSnapshot snapshot = getSnapshots()
+                       .getSnapshot(viewHolder.getAdapterPosition());
+               intent.putExtra("postRef", snapshot.getId() );
+               startActivity(viewHolder.commmentButton.getContext(),intent,null);
+           }
+       });
+
 
        viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -131,9 +140,9 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
     static class postViewHolder extends RecyclerView.ViewHolder {
 TextView postText,userName,createdAt,likeCount;
 ImageView userImage,likeButton;
-ImageView postImage,playButton,deleteButton;
+ImageView postImage,playButton,deleteButton,commmentButton;
 
-       VideoView videoView;
+
 
 
 
@@ -148,6 +157,7 @@ ImageView postImage,playButton,deleteButton;
       postImage = itemView.findViewById(R.id.postImage);
      playButton = itemView.findViewById(R.id.playButton);
  deleteButton = itemView.findViewById(R.id.deleteButton);
+   commmentButton = itemView.findViewById(R.id.commentButton);
     }
 }
 

@@ -61,7 +61,6 @@ ImageView postImagePicker;
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
         }
-
     });
 
 
@@ -80,7 +79,7 @@ ImageView postImagePicker;
             }
 
 
-        if(!input.isEmpty() && bitmap!=null  ){
+        if(!input.isEmpty() && imageUri!=null  ){
             // uploadImage();
             PostDao postDao = new PostDao();
             postDao.addPost(input,imageURL,hasVideo);

@@ -27,11 +27,11 @@
         android:layout_width="0dp"
         android:layout_height="90dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="368dp"
+        android:layout_marginTop="436dp"
         android:layout_marginRight="50dp"
         android:soundEffectsEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
