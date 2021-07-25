@@ -75,7 +75,7 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
             Glide.with(holder.postImage.getContext()).load(model.postImage).into(holder.postImage);
         }else {
         holder.playButton.setVisibility(View.VISIBLE);
-        RequestOptions requestOptions = new RequestOptions();
+       // RequestOptions requestOptions = new RequestOptions();
         Glide.with( holder.postImage.getContext() )
                 .load( Uri.parse(model.postImage))
                 .into( holder.postImage );
@@ -90,8 +90,8 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
         });
 }
 
-     if(model.LikedBy.size() >0){ holder.likeCount.setText(String.valueOf(model.LikedBy.size()));}
-        if(model.comments.size() > 0){ holder.commentCount.setText(String.valueOf(model.comments.size()));}
+     if(model.LikedBy.size() >0){ holder.likeCount.setText(String.valueOf(model.LikedBy.size()));}else{ holder.likeCount.setText("");}
+        if(model.comments.size() > 0){ holder.commentCount.setText(String.valueOf(model.comments.size()));}else{ holder.commentCount.setText("");}
         holder.createdAt.setText(Utils.toDuration(System.currentTimeMillis() - model.createdAt));
 
         String currentUserId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
