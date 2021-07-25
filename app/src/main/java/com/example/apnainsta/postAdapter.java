@@ -90,7 +90,8 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
         });
 }
 
-      holder.likeCount.setText(String.valueOf(model.LikedBy.size()));
+     if(model.LikedBy.size() >0){ holder.likeCount.setText(String.valueOf(model.LikedBy.size()));}
+        if(model.comments.size() > 0){ holder.commentCount.setText(String.valueOf(model.comments.size()));}
         holder.createdAt.setText(Utils.toDuration(System.currentTimeMillis() - model.createdAt));
 
         String currentUserId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
@@ -138,7 +139,7 @@ public class postAdapter extends FirestoreRecyclerAdapter<Post, postAdapter.post
     }
 
     static class postViewHolder extends RecyclerView.ViewHolder {
-TextView postText,userName,createdAt,likeCount;
+TextView postText,userName,createdAt,likeCount,commentCount;
 ImageView userImage,likeButton;
 ImageView postImage,playButton,deleteButton,commmentButton;
 
@@ -158,6 +159,7 @@ ImageView postImage,playButton,deleteButton,commmentButton;
      playButton = itemView.findViewById(R.id.playButton);
  deleteButton = itemView.findViewById(R.id.deleteButton);
    commmentButton = itemView.findViewById(R.id.commentButton);
+   commentCount = itemView.findViewById(R.id.commentCount);
     }
 }
 

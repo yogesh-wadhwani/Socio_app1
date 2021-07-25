@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,9 @@ import static com.example.apnainsta.daos.PostDao.postCollections;
      TextView postCaption;
      User currentUser = new User();
        Post currentPost = new Post();
+       ProgressBar progressBar;
+       Boolean foundUser = false;
+
      @Override
      protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,8 @@ import static com.example.apnainsta.daos.PostDao.postCollections;
         postComment = findViewById(R.id.postComment);
         commentInput = findViewById(R.id.commentInput);
         postCaption = findViewById(R.id.postCaption);
+        progressBar = findViewById(R.id.commentsProgressBar);
+
         Intent intent = getIntent();
         String currentPostId = intent.getStringExtra("postRef");
 
@@ -58,17 +64,19 @@ import static com.example.apnainsta.daos.PostDao.postCollections;
                  if ( currentUser != null) {
                      String commentText = commentInput.getText().toString();
                      Long currentTime = System.currentTimeMillis();
-                     Comment comment  = new Comment(commentText, currentUser,currentTime);
+                     Comment comment  = new Comment(commentText, currentUser.displayName, currentUser.imageURL,currentUser.uid ,currentTime);
                      (currentPost.comments).add(comment);
 
                      postCollections.document(currentPostId).set(currentPost);
 
 
-
+                    commentInput.setText("");
                      Toast.makeText(CommentsActivity.this, "Comment Added", Toast.LENGTH_SHORT).show();
+
                  }
              }
          });
+
 
 
 
@@ -81,6 +89,7 @@ import static com.example.apnainsta.daos.PostDao.postCollections;
                  Log.d("ApnaInsta" , "Loading Post Successful");
                  currentUser = Tasks.await(userDao.getUserData(currentUserId)).toObject(User.class);
                  Log.d("ApnaInsta" , "Loading User Successful");
+                 foundUser = true;
 
              }
              catch (Exception e){
@@ -89,33 +98,38 @@ import static com.example.apnainsta.daos.PostDao.postCollections;
          } } ).start();
 
 
-         try {
-             Thread.sleep(500);
-         } catch (InterruptedException e) {
-             e.printStackTrace();
-         }
-
-         if(currentPost != null) {
-
-             CommentsAdapter ad = new CommentsAdapter(currentPost.comments);
-             commentRecyclerView.addItemDecoration(new DividerItemDecoration(CommentsActivity.this, DividerItemDecoration.VERTICAL));
-             commentRecyclerView.setLayoutManager(new LinearLayoutManager(CommentsActivity.this));
-             commentRecyclerView.setAdapter(ad);
-         }else{
-             Toast.makeText(CommentsActivity.this, "Loading Comments Failed", Toast.LENGTH_SHORT).show();
-             finish();
-         }
 
 
+           for(int i =0;i<40;i++) {
 
+               if (!foundUser) {
+                   try {
+                       Thread.sleep(50);
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+                 continue;
+               } else if(foundUser){
+                  //Toast.makeText(CommentsActivity.this, "found User", Toast.LENGTH_SHORT).show();
+
+                   progressBar.setVisibility(View.INVISIBLE);
+                   CommentsAdapter ad = new CommentsAdapter(currentPost.comments,currentPostId,currentPost);
+                   commentRecyclerView.addItemDecoration(new DividerItemDecoration(CommentsActivity.this, DividerItemDecoration.VERTICAL));
+                   commentRecyclerView.setLayoutManager(new LinearLayoutManager(CommentsActivity.this));
+                   commentRecyclerView.setAdapter(ad);
+                   commentRecyclerView.setVisibility(View.VISIBLE);
+                   break;
+               }
+           if(i==39){
+               Toast.makeText(CommentsActivity.this, "Loading Comments Failed", Toast.LENGTH_SHORT).show();
+               finish();
+           }
+
+           }
 
 
 
 
  }
-
-
-
-
 
 }

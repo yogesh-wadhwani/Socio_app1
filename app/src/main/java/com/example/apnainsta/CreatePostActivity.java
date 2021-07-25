@@ -70,11 +70,11 @@ ImageView postImagePicker;
             if(postInput.getText() != null)
                 input = postInput.getText().toString().trim();
 
-            if(input.isEmpty() && bitmap!=null  ) {
+            if(input.isEmpty() && imageUri!=null  ) {
                 Toast.makeText(getApplicationContext(),"Please add caption!",Toast.LENGTH_SHORT).show();
-            }else if(!input.isEmpty() && bitmap==null ){
+            }else if(!input.isEmpty() && imageUri==null ){
                 Toast.makeText(getApplicationContext(),"Please add Image to post!",Toast.LENGTH_SHORT).show();
-            }else if(input.isEmpty() && bitmap==null ) {
+            }else if(input.isEmpty() && imageUri==null ) {
                 Toast.makeText(getApplicationContext(),"Post cannot be empty!",Toast.LENGTH_SHORT).show();
             }
 

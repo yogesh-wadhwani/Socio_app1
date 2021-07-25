@@ -70,12 +70,11 @@
 
     <TextView
         android:id="@+id/likeCount"
-        android:layout_width="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:text="no."
-        android:textSize="14sp"
+        android:gravity="left"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/likeButton"
         app:layout_constraintStart_toEndOf="@+id/likeButton"
         app:layout_constraintTop_toTopOf="@+id/likeButton"
@@ -130,5 +129,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postText"
         app:srcCompat="@drawable/ic_baseline_insert_comment_24" />
+
+    <TextView
+        android:id="@+id/commentCount"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:gravity="left"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/commentButton"
+        app:layout_constraintStart_toEndOf="@+id/commentButton"
+        app:layout_constraintTop_toTopOf="@+id/commentButton"
+        app:layout_constraintVertical_bias="0.25" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
